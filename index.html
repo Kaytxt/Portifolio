@@ -7,13 +7,27 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
-  --brown: #3D2014;
-  --cream: #F2E8DA;
-  --cream-dark: #E8DACA;
+  --brown: #1A1A1A;     /* grafite (texto/blocos escuros) */
+  --cream: #F5F4F0;     /* off-white (background) */
+  --cream-dark: #E6E3DC;
   --white: #FFFFFF;
-  --text: #5C3D24;
-  --text-light: #8B6B4F;
+  --text: #1A1A1A;
+  --text-light: #555555;
+  --accent: #FF5722;    /* accent vibrante p/ CTAs e destaques */
 }
+
+/* Accent em pontos-chave para criar hierarquia */
+.whatsapp-btn { background: var(--accent); }
+.whatsapp-btn:hover { box-shadow: 0 8px 24px rgba(255,87,34,0.35); }
+.btn-enviar { background: var(--accent); color: #fff; }
+.btn-enviar:hover { background: #E64A19; color: #fff; }
+.projeto-tag, .modal-tag { background: var(--accent); color: #fff; }
+.dot.active { background: var(--accent); }
+.hero-cta:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+.foto-socials a { background: var(--accent); }
+.foto-socials a:hover { box-shadow: 0 6px 20px rgba(255,87,34,0.3); }
+.contato-socials a:hover { background: var(--accent); border-color: var(--accent); }
+.contato-socials a:hover svg { fill: #fff; }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: auto; }
@@ -105,22 +119,56 @@ nav { position: fixed; top: 0; width: 100%; z-index: 100; padding: 16px 24px; di
 @keyframes marqueeScroll { 0%{transform:translateX(0)} 100%{transform:translateX(-100%)} }
 
 /* ════════ PROJETOS ════════ */
-.projetos-section { position: relative; overflow: hidden; }
+.projetos-section { position: relative; padding-bottom: 24px; }
 .projetos-header { padding: 80px 24px 0; max-width: 1100px; margin: 0 auto; }
-.projetos-pin { display: flex; align-items: flex-start; overflow: hidden; }
-.projetos-track { display: flex; gap: 24px; padding: 0 24px; will-change: transform; }
+.projetos-pin { position: relative; }
+.projetos-track {
+  --card-w: 420px;
+  display: flex; gap: 24px;
+  padding-top: 24px; padding-bottom: 8px;
+  padding-left: max(24px, calc(50% - var(--card-w) / 2));
+  padding-right: max(24px, calc(50% - var(--card-w) / 2));
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  -webkit-overflow-scrolling: touch;
+}
+.projetos-track::-webkit-scrollbar { display: none; }
+.projetos-track .projeto-card { scroll-snap-align: center; scroll-snap-stop: always; }
+
+/* Setas de navegação (PC) */
+.proj-nav {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  width: 56px; height: 56px; border-radius: 50%;
+  background: var(--brown); color: var(--cream);
+  border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  z-index: 5;
+  transition: background .25s ease, transform .25s ease, opacity .25s ease;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+.proj-nav:hover { background: var(--accent); transform: translateY(-50%) scale(1.06); }
+.proj-nav:disabled { opacity: 0.25; cursor: not-allowed; }
+.proj-nav.prev { left: 12px; }
+.proj-nav.next { right: 12px; }
+.proj-nav svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+@media (max-width: 768px) { .proj-nav { display: none; } }
 
 /* Scroll hint */
 .scroll-hint { display: flex; align-items: center; gap: 15px; margin-top: 20px; margin-bottom: 40px; opacity: 0.6; }
 .scroll-hint span { font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: var(--brown); font-weight: 500; }
+.hint-mobile { display: none; }
+@media (max-width: 768px) { .hint-desktop { display: none; } .hint-mobile { display: inline; } }
 .mouse { width: 22px; height: 35px; border: 2px solid var(--brown); border-radius: 20px; display: flex; justify-content: center; padding-top: 7px; flex-shrink: 0; }
 .wheel { width: 3px; height: 6px; background: var(--brown); border-radius: 2px; animation: mouseWheel 1.6s ease-in-out infinite; }
 @keyframes mouseWheel { 0%{transform:translateY(0);opacity:1} 100%{transform:translateY(12px);opacity:0} }
 
 /* ── CARD ── */
 .projeto-card {
-  width: 420px;
-  min-width: 420px;
+  width: var(--card-w, 420px);
+  min-width: var(--card-w, 420px);
   background: var(--cream-dark);
   border-radius: 20px;
   overflow: hidden;
@@ -161,7 +209,7 @@ nav { position: fixed; top: 0; width: 100%; z-index: 100; padding: 16px 24px; di
 /* ════════ MODAL ════════ */
 .modal-overlay {
   position: fixed; inset: 0; z-index: 200;
-  background: rgba(26,14,5,0.7);
+  background: rgba(0,0,0,0.65);
   backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
   display: flex; align-items: center; justify-content: center;
   opacity: 0; visibility: hidden;
@@ -263,13 +311,8 @@ footer span { font-size: 11px; color: var(--cream); opacity: 0.3; }
 /* PC */
 
 @media (min-width: 1024px) {
-  .projeto-card {
-    width: 1200px; 
-    min-width: 550px;
-  }
-  .projeto-thumb {
-    height: 300px; 
-  }
+  .projetos-track { --card-w: 720px; }
+  .projeto-thumb { height: 300px; }
 }
 
 /* Tablet */
@@ -277,7 +320,7 @@ footer span { font-size: 11px; color: var(--cream); opacity: 0.3; }
   .sobre { grid-template-columns: 1fr; gap: 32px; padding: 60px 24px; }
   .sobre-foto { display: flex; flex-direction: column; align-items: center; }
   .foto-box { max-width: 260px; }
-  .projeto-card { width: 340px; min-width: 340px; }
+  .projetos-track { --card-w: 340px; }
   .projeto-thumb { height: 180px; }
   .contato-inner { grid-template-columns: 1fr; gap: 40px; }
   .modal { max-width: 95vw; }
@@ -329,7 +372,8 @@ footer span { font-size: 11px; color: var(--cream); opacity: 0.3; }
   .scroll-hint span { font-size: 10px; letter-spacing: 1px; }
   .mouse { width: 18px; height: 28px; }
 
-  .projeto-card { width: 280px; min-width: 280px; border-radius: 16px; }
+  .projetos-track { --card-w: 280px; }
+  .projeto-card { border-radius: 16px; }
   .projeto-thumb { height: 160px; }
   .projeto-body { padding: 16px; }
   .projeto-num { font-size: 32px; }
@@ -389,7 +433,7 @@ footer span { font-size: 11px; color: var(--cream); opacity: 0.3; }
   .hero-role { font-size: 13px; max-width: 220px; }
   .section-label { font-size: 32px; }
   .foto-box { max-width: 170px; }
-  .projeto-card { width: 250px; min-width: 250px; }
+  .projetos-track { --card-w: 250px; }
   .projeto-thumb { height: 140px; }
   .projeto-title { font-size: 14px; }
   .projeto-desc { -webkit-line-clamp: 2; font-size: 11px; }
@@ -462,17 +506,24 @@ footer span { font-size: 11px; color: var(--cream); opacity: 0.3; }
   <div class="projetos-header">
     <h2 class="section-label reveal">Meus<br>Projetos</h2>
     <div class="scroll-hint reveal">
-      <div class="mouse"><div class="wheel"></div></div>
-      <span>Role para baixo para navegar</span>
+      <span class="hint-desktop">Use as setas para navegar</span>
+      <span class="hint-mobile">Arraste para o lado</span>
     </div>
   </div>
   <div class="projetos-pin">
+    <button class="proj-nav prev" id="projPrev" aria-label="Projeto anterior">
+      <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
     <div class="projetos-track" id="projetosTrack"></div>
+    <button class="proj-nav next" id="projNext" aria-label="Próximo projeto">
+      <svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+    </button>
   </div>
   <div class="projetos-dots">
     <div class="dot active" data-i="0"></div>
     <div class="dot" data-i="1"></div>
     <div class="dot" data-i="2"></div>
+    <div class="dot" data-i="3"></div>
   </div>
 </section>
 
@@ -543,7 +594,7 @@ footer span { font-size: 11px; color: var(--cream); opacity: 0.3; }
 
 <footer><span>© 2026 Kauan Douglas</span><span>Portfolio</span></footer>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script>
 gsap.registerPlugin(ScrollTrigger);
@@ -705,31 +756,67 @@ function runScroll() {
 
   gsap.to('.foto-box', { scrollTrigger: { trigger: '.sobre', start: 'top bottom', end: 'bottom top', scrub: 1.2 }, y: -40 });
 
+  // ─── Carousel: setas (PC) + swipe nativo (mobile) ───
   const track = document.querySelector('.projetos-track');
-  const cards = gsap.utils.toArray('.projeto-card');
-  const dots = gsap.utils.toArray('.dot');
+  const cards = Array.from(track.querySelectorAll('.projeto-card'));
+  const dots = Array.from(document.querySelectorAll('.projetos-dots .dot'));
+  const prevBtn = document.getElementById('projPrev');
+  const nextBtn = document.getElementById('projNext');
 
-  function getAmount() { return track.scrollWidth - window.innerWidth + 48; }
+  // Card mais próximo do centro do track = card ativo
+  function currentIndex() {
+    const tr = track.getBoundingClientRect();
+    const center = tr.left + tr.width / 2;
+    let best = 0, bestDist = Infinity;
+    cards.forEach((c, i) => {
+      const r = c.getBoundingClientRect();
+      const d = Math.abs((r.left + r.width / 2) - center);
+      if (d < bestDist) { bestDist = d; best = i; }
+    });
+    return best;
+  }
+  function updateDots() {
+    const idx = currentIndex();
+    dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+    if (prevBtn) prevBtn.disabled = idx <= 0;
+    if (nextBtn) nextBtn.disabled = idx >= cards.length - 1;
+  }
+  function scrollToIndex(i) {
+    const clamped = Math.max(0, Math.min(i, cards.length - 1));
+    const card = cards[clamped];
+    if (!card) return;
+    const tr = track.getBoundingClientRect();
+    const cr = card.getBoundingClientRect();
+    const target = track.scrollLeft + (cr.left + cr.width / 2) - (tr.left + tr.width / 2);
+    track.scrollTo({ left: target, behavior: 'smooth' });
+  }
 
-  gsap.to(track, {
-    x: () => -getAmount(),
-    ease: 'none',
-    scrollTrigger: {
-      trigger: '.projetos-section',
-      start: 'top top',
-      end: () => `+=${getAmount()}`,
-      pin: '.projetos-section',
-      scrub: 1,
-      invalidateOnRefresh: true,
-      onUpdate: self => {
-        const idx = Math.min(Math.floor(self.progress * cards.length), cards.length - 1);
-        dots.forEach((d, i) => d.classList.toggle('active', i === idx));
-      }
-    }
-  });
+  if (prevBtn) prevBtn.addEventListener('click', () => scrollToIndex(currentIndex() - 1));
+  if (nextBtn) nextBtn.addEventListener('click', () => scrollToIndex(currentIndex() + 1));
+  dots.forEach((d, i) => d.addEventListener('click', () => scrollToIndex(i)));
 
-  ScrollTrigger.refresh();
-  window.addEventListener('resize', () => ScrollTrigger.refresh());
+  // Atualização imediata — sem debounce — usando rAF para suavidade
+  let raf;
+  track.addEventListener('scroll', () => {
+    if (raf) return;
+    raf = requestAnimationFrame(() => { raf = null; updateDots(); });
+  }, { passive: true });
+  window.addEventListener('resize', updateDots);
+  updateDots();
+
+  // some hint na primeira interação
+  let hintHidden = false;
+  function hideHint(){
+    if (hintHidden) return; hintHidden = true;
+    const h = document.querySelector('.scroll-hint');
+    if (!h) return;
+    h.style.transition = 'opacity .4s ease, transform .4s ease';
+    h.style.opacity = '0';
+    h.style.transform = 'translateY(-10px)';
+  }
+  track.addEventListener('scroll', hideHint, { once: true });
+  if (prevBtn) prevBtn.addEventListener('click', hideHint, { once: true });
+  if (nextBtn) nextBtn.addEventListener('click', hideHint, { once: true });
 }
 </script>
 </body>
