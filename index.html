@@ -46,27 +46,17 @@ nav { position: fixed; top: 0; width: 100%; z-index: 100; padding: 16px 24px; di
 .hero { min-height: 100vh; min-height: 100svh; background: var(--brown); display: flex; flex-direction: column; justify-content: flex-end; padding: 0 24px 48px; position: relative; overflow: hidden; }
 .hero-watermark {
   position: absolute;
-  /* Centraliza verticalmente */
   top: 50%;
   transform: translateY(-50%);
-  
-  /* Mantém uma distância fixa da borda direita */
-  right: 2%; /* Ajuste este valor se quiser mais para dentro ou para fora */
-  
+  right: 2%; 
   font-family: 'Bebas Neue', sans-serif;
-  
-  /* Diminuímos o tamanho máximo para evitar que corte em telas médias */
   font-size: clamp(150px, 35vw, 420px); 
-  
   color: var(--cream);
   opacity: 0.03;
   line-height: 1;
   pointer-events: none;
   user-select: none;
-  z-index: 1; /* Garante que fique atrás do texto principal */
-  
-  /* Adiciona quebra de texto se necessário, mas como é um número, 
-     ajudar a garantir que o navegador tente encaixar */
+  z-index: 1; 
   white-space: nowrap; 
 }
 
@@ -193,7 +183,7 @@ nav { position: fixed; top: 0; width: 100%; z-index: 100; padding: 16px 24px; di
   position: absolute; 
   top: 16px; 
   right: 16px; 
-  z-index: 999; /* Garante que fique acima de tudo */
+  z-index: 999; 
   width: 40px; 
   height: 40px; 
   border-radius: 50%;
@@ -274,11 +264,11 @@ footer span { font-size: 11px; color: var(--cream); opacity: 0.3; }
 
 @media (min-width: 1024px) {
   .projeto-card {
-    width: 1200px; /* Aumente aqui o quanto quiser para o PC */
+    width: 1200px; 
     min-width: 550px;
   }
   .projeto-thumb {
-    height: 300px; /* Aumenta a altura da imagem também no PC */
+    height: 300px; 
   }
 }
 
@@ -302,10 +292,10 @@ footer span { font-size: 11px; color: var(--cream); opacity: 0.3; }
   /* Hero */
   .hero { padding: 0 16px 28px; }
   .hero-watermark {
-      font-size: clamp(100px, 40vw, 180px) !important; /* !important garante que sobrescreva */
+      font-size: clamp(100px, 40vw, 180px) !important; 
       top: auto !important;
       bottom: 100px !important;
-      right: 5% !important; /* Mantém 5% de distância da borda direita */
+      right: 5% !important;
       left: auto !important;
       transform: none !important;
       opacity: 0.03 !important;
@@ -389,7 +379,7 @@ footer span { font-size: 11px; color: var(--cream); opacity: 0.3; }
     right: 10px;
     width: 34px; 
     height: 34px;
-    position: fixed; /* Muda para fixed no mobile para ele "boiar" sobre o conteúdo */
+    position: fixed;
   }
 }
 
@@ -595,6 +585,16 @@ const projects = [
     tags: ['HTML', 'CSS', 'GSAP', 'JavaScript ES6+', 'Webhooks Google Sheets'],
     images: ['fotos/mapa/Mapa-Imagem1.png', 'fotos/mapa/Mapa-Imagem2.png', 'fotos/mapa/Mapa-Imagem3.jpeg'],
     link: 'https://mapaarquetipos.vercel.app/'
+  },
+  {
+    num: '04',
+    title: 'Domine seu Caixa',
+    capa: 'fotos/domine-seu-caixa/4.png',
+    shortDesc: 'Uma pagina de captção de Leads',
+    fullDesc: 'Aplicação web simples com intuito de captar leads e convidar para um grupo de WhatsApp e uma Aula Online. Após o cliente se cadastrar, ele é encaminhado para uma pagina de agradecimento com um botão para entrar no grupo do WhatsApp.',
+    tags: ['HTML', 'CSS', 'GSAP', 'JavaScript ES6+', 'PostgreSQL'],
+    images: ['fotos/domine-seu-caixa/DomineSeuCaixa-Imagem1.png', 'fotos/domine-seu-caixa/DomineSeuCaixa-Imagem2.png', 'fotos/domine-seu-caixa/DomineSeuCaixa-Imagem3.png'],
+    link: 'https://domine-seu-caixa.vercel.app/'
   }
 ];
 
@@ -698,7 +698,6 @@ function runScroll() {
     gsap.to(el, { scrollTrigger: { trigger: el, start: 'top 88%' }, y: 0, opacity: 1, duration: 0.7, ease: 'power3.out' });
   });
 
-  // Fade scroll hint on scroll
   gsap.to('.scroll-hint', {
     opacity: 0, y: -20,
     scrollTrigger: { trigger: '.projetos-section', start: 'top -5%', end: 'top -15%', scrub: true }
