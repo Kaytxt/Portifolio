@@ -30,7 +30,7 @@
 .contato-socials a:hover svg { fill: #fff; }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: auto; }
+html { scroll-behavior: auto; scrollbar-gutter: stable; }
 body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--brown); overflow-x: hidden; }
 ::selection { background: var(--brown); color: var(--cream); }
 
@@ -224,6 +224,7 @@ nav { position: fixed; top: 0; width: 100%; z-index: 100; padding: 16px 24px; di
   transform: translateY(40px) scale(0.96);
   transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
+  will-change: transform;
 }
 .modal-overlay.open .modal { transform: translateY(0) scale(1); }
 
@@ -251,10 +252,11 @@ form.contato-form {
 
 .modal-close:hover { transform: rotate(90deg); }
 
-.modal-carousel { position: relative; width: 100%; aspect-ratio: 16/9; background: var(--white); border-radius: 24px 24px 0 0; overflow: hidden; }
-.carousel-track { display: flex; height: 100%; transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+.modal-carousel { position: relative; width: 100%; aspect-ratio: 16/9; background: var(--white); border-radius: 24px 24px 0 0; overflow: hidden; touch-action: pan-y; }
+.carousel-track { display: flex; height: 100%; transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); will-change: transform; }
+.carousel-track.dragging { transition: none; }
 .carousel-slide { min-width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: var(--cream-dark); cursor: pointer; }
-.carousel-slide img { width: 100%; height: 100%; object-fit: contain; background: #000; }
+.carousel-slide img { width: 100%; height: 100%; object-fit: contain; background: #000; -webkit-user-drag: none; user-select: none; }
 .carousel-slide:hover img { opacity: 0.85; transition: opacity 0.3s ease; }
 
 .carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; border-radius: 50%; background: var(--brown); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; opacity: 0.8; }
@@ -616,14 +618,14 @@ const projects = [
     shortDesc: 'Uma IA definitiva para WhatsApp. Automatiza atendimentos, reservas e pedidos de forma inteligente e personalizada, 24 horas por dia.',
     fullDesc: 'Agente inteligente integrado ao WhatsApp que atua como um operador digital 24/7. Utiliza lógica de N8N para orquestrar fluxos complexos, processar intenções com IA e integrar-se a APIs externas para automação de vendas, agendamentos e suporte, reduzindo o tempo de resposta e o esforço humano.',
     tags: ['Python', 'N8N', 'Evolution API', 'Chatwoot', 'PostgreSQL'],
-    images: ['fotos/askbar/Askbar-Imagem1.png'],
+    images: ['fotos/askbar/Askbar-Imagem1.png', 'fotos/askbar/Askbar-Imagem2.png'],
     link: 'https://askbar.com.br/'
   },
   {
     num: '02',
     title: 'DotIA',
     capa: 'fotos/dotia/3.png',
-    shortDesc: 'Projeto Faculdade - Ecossistema inteligente de Help Desk multiplataforma com OpenAI e escalonamento automático.',
+    shortDesc: 'Ecossistema de Help Desk multiplataforma com triagem por IA (OpenAI) e escalonamento automático para atendimento humano.',
     fullDesc: 'DotIA é uma plataforma inteligente de Help Desk e Suporte Técnico que utiliza Inteligência Artificial para agilizar o atendimento. O sistema tenta resolver as dúvidas do usuário via chat (integração OpenAI) e, caso não seja possível, escala automaticamente para um ticket, direcionando para técnicos humanos. O ecossistema é composto por uma API Central (.NET 9) que serve clientes Web, Desktop (Windows Forms) e Mobile (MAUI).',
     tags: ['ASP.NET Core MVC', 'WindowsForms', '.NET 9', 'MAUI', 'OpenAI API', 'PostgreSQL', 'JavaScript', 'Bootstrap'],
     images: ['fotos/dotia/DotIA-Imagem1.jpeg', 'fotos/dotia/DotIA-Imagem2.jpeg', 'fotos/dotia/DotIA-Imagem3.jpeg'],
@@ -643,8 +645,8 @@ const projects = [
     num: '04',
     title: 'Domine seu Caixa',
     capa: 'fotos/domine-seu-caixa/4.png',
-    shortDesc: 'Uma pagina de captção de Leads',
-    fullDesc: 'Aplicação web simples com intuito de captar leads e convidar para um grupo de WhatsApp e uma Aula Online. Após o cliente se cadastrar, ele é encaminhado para uma pagina de agradecimento com um botão para entrar no grupo do WhatsApp.',
+    shortDesc: 'Landing page de captação de leads para uma aula online gratuita e grupo VIP no WhatsApp.',
+    fullDesc: 'Página de captação construída para converter visitantes em inscritos de uma aula online gratuita. Após o cadastro, o lead é direcionado a uma página de agradecimento com acesso imediato ao grupo exclusivo no WhatsApp, reduzindo fricção no funil e aumentando a taxa de conversão.',
     tags: ['HTML', 'CSS', 'GSAP', 'JavaScript ES6+', 'PostgreSQL'],
     images: ['fotos/domine-seu-caixa/DomineSeuCaixa-Imagem1.png', 'fotos/domine-seu-caixa/DomineSeuCaixa-Imagem2.png', 'fotos/domine-seu-caixa/DomineSeuCaixa-Imagem3.png'],
     link: 'https://domine-seu-caixa.vercel.app/'
@@ -657,17 +659,17 @@ const projects = [
     fullDesc: 'Vitrine digital moderna desenvolvida para uma loja de motocicletas novas e seminovas. A aplicação apresenta o estoque dinamicamente, detalha vantagens e condições de financiamento, e conta com botões estratégicos de CTA que direcionam o cliente diretamente para o atendimento especializado via WhatsApp.',
     tags: ['HTML', 'CSS', 'GSAP', 'JavaScript ES6+'],
     images: ['fotos/sdmotos/SDmotos-imagem1.png', 'fotos/sdmotos/SDmotos-imagem2.png', 'fotos/sdmotos/SDmotos-imagem3.png'],
-    link: 'https://sdmotos.vercel.app/'
+    link: 'https://sdmotos.com.br/'
   },
   {
     num: '06',
     title: 'SD Guinchos',
     capa: 'fotos/sdguincho/5.png',
     shortDesc: 'Landing page de conversão imediata para serviço de reboque 24h especializado.',
-    fullDesc: 'Página de alta conversão estruturada para serviços de emergência e reboque especializado em motocicletas. Focada em mobile-first e rapidez de contato, a aplicação apresenta fluxos claros de atendimento (ligação direta e WhatsApp), seções de confiabilidade do serviço e mapeamento estratégico de bairros e rodovias da região de Ribeirão Preto.',    
+    fullDesc: 'Página de alta conversão estruturada para serviços de emergência e reboque especializado em motocicletas. Focada em mobile-first e rapidez de contato, a aplicação apresenta fluxos claros de atendimento (ligação direta e WhatsApp), seções de confiabilidade do serviço e mapeamento estratégico de bairros e rodovias da região de Ribeirão Preto.',
     tags: ['HTML', 'CSS', 'GSAP', 'JavaScript ES6+'],
     images: ['fotos/sdguincho/SDguincho-imagem1.png', 'fotos/sdguincho/SDguincho-imagem2.png', 'fotos/sdguincho/SDguincho-imagem3.png'],
-    link: 'https://sd-guincho.vercel.app/'
+    link: 'https://sdmotoguincho.com.br/'
   }
 ];
 
@@ -676,7 +678,7 @@ const projetosTrack = document.getElementById('projetosTrack');
 projetosTrack.innerHTML = projects.map((p, i) => `
   <div class="projeto-card" data-project="${i}">
     <div class="projeto-thumb">
-      <img src="${p.capa}" alt="${p.title}">
+      <img src="${p.capa}" alt="${p.title}" loading="${i === 0 ? 'eager' : 'lazy'}" decoding="async">
     </div>
     <div class="projeto-body">
       <div class="projeto-num">${p.num}</div>
@@ -694,16 +696,20 @@ const carouselTrack = document.getElementById('carouselTrack');
 const carouselDots = document.getElementById('carouselDots');
 let currentSlide = 0, totalSlides = 0;
 
+let activeLink = '';
+
 function openModal(i) {
   const p = projects[i];
   currentSlide = 0;
   totalSlides = p.images.length;
+  activeLink = p.link;
 
   carouselTrack.innerHTML = p.images.map(img => `
-    <div class="carousel-slide" onclick="window.open('${p.link}', '_blank')">
-      <img src="${img}" alt="${p.title}">
+    <div class="carousel-slide">
+      <img src="${img}" alt="${p.title}" decoding="async">
     </div>
   `).join('');
+  carouselTrack.style.transform = 'translateX(0%)';
 
   const showNav = totalSlides > 1;
   document.getElementById('carPrev').style.display = showNav ? '' : 'none';
@@ -717,8 +723,10 @@ function openModal(i) {
   document.getElementById('modalTags').innerHTML = p.tags.map(t => `<span class="modal-tag">${t}</span>`).join('');
 
   updateCarousel();
-  overlay.classList.add('open');
   document.body.style.overflow = 'hidden';
+  // dupla rAF: garante que o navegador aplique o estado inicial antes de
+  // disparar a transição, evitando que a abertura "pule" direto pro final
+  requestAnimationFrame(() => requestAnimationFrame(() => overlay.classList.add('open')));
 }
 
 function closeModal() { overlay.classList.remove('open'); document.body.style.overflow = ''; }
@@ -743,6 +751,61 @@ document.addEventListener('keydown', e => {
 document.querySelectorAll('.projeto-card').forEach(card => {
   card.addEventListener('click', () => openModal(+card.dataset.project));
 });
+
+/* ─── Swipe/drag fluido no carrossel do modal ─── */
+(function initCarouselSwipe(){
+  const wrap = document.querySelector('.modal-carousel');
+  let startX = 0, deltaX = 0, dragging = false, dragged = false;
+
+  wrap.addEventListener('pointerdown', e => {
+    if (totalSlides <= 1 || e.target.closest('.carousel-btn')) return;
+    dragging = true;
+    dragged = false;
+    startX = e.clientX;
+    carouselTrack.classList.add('dragging');
+    wrap.setPointerCapture(e.pointerId);
+  });
+
+  wrap.addEventListener('pointermove', e => {
+    if (!dragging) return;
+    deltaX = e.clientX - startX;
+    if (Math.abs(deltaX) > 6) dragged = true;
+    const base = -currentSlide * 100;
+    const dragPct = (deltaX / wrap.clientWidth) * 100;
+    carouselTrack.style.transform = `translateX(${base + dragPct}%)`;
+  });
+
+  function endDrag(){
+    if (!dragging) return;
+    dragging = false;
+    carouselTrack.classList.remove('dragging');
+    if (Math.abs(deltaX) > wrap.clientWidth * 0.18) {
+      currentSlide = deltaX < 0
+        ? (currentSlide + 1) % totalSlides
+        : (currentSlide - 1 + totalSlides) % totalSlides;
+    }
+    deltaX = 0;
+    updateCarousel();
+  }
+  wrap.addEventListener('pointerup', endDrag);
+  wrap.addEventListener('pointercancel', endDrag);
+  wrap.addEventListener('pointerleave', () => { if(dragging) endDrag(); });
+
+  // clique abre o link do projeto — só se não foi um arrasto
+  wrap.addEventListener('click', e => {
+    if (dragged || e.target.closest('.carousel-btn') || e.target.closest('.carousel-dot')) { dragged = false; return; }
+    if (e.target.closest('.carousel-slide') && activeLink) window.open(activeLink, '_blank');
+  });
+})();
+
+/* ─── Pré-carrega imagens dos projetos em segundo plano ─── */
+function preloadProjectImages() {
+  const urls = new Set();
+  projects.forEach(p => p.images.forEach(src => urls.add(src)));
+  urls.forEach(src => { const im = new Image(); im.src = src; });
+}
+if ('requestIdleCallback' in window) requestIdleCallback(preloadProjectImages);
+else setTimeout(preloadProjectImages, 1500);
 
 /* ═══ LOADER ═══ */
 function initSite() {
